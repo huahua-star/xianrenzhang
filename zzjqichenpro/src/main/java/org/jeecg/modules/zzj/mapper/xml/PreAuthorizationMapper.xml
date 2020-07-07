@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.zzj.mapper.PreAuthorizationMapper">
+    <resultMap id="preMap" type="org.jeecg.modules.zzj.entity.PreAuthorization" >
+        <result column="resv_rowid" property="resvRowId" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="VARCHAR"/>
+        <result column="credit_card" property="creditCard" jdbcType="VARCHAR"/>
+        <result column="PAD" property="pad" jdbcType="VARCHAR"/>
+        <result column="depositNo" property="depositNo" jdbcType="VARCHAR"/>
+        <result column="credit_card_holder" property="creditCardHolder" jdbcType="VARCHAR"/>
+        <result column="credit_card_note" property="creditCardNote" jdbcType="VARCHAR"/>
+        <result column="credit_card_exp" property="creditCardExp" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="searchResvCardAmount" statementType="CALLABLE"  resultMap="preMap">
+        exec Self_help_SearchResvCardAmount #{orderId}
+    </select>
+
+    <select id="insertCardAmount" statementType="CALLABLE"  resultType="java.lang.Integer">
+        exec Self_help_InsertCardAmount #{orderId},#{amount},#{creditCard},#{pad},#{depositNo},#{creditCardHolder},#{creditCardNote},#{creditCardExp}
+    </select>
+
+    <select id="cancleCardAmount" statementType="CALLABLE"  resultType="java.lang.Integer">
+        exec Self_help_CancleCardAmount #{orderId},#{amount}
+    </select>
+
+
+    <select id="payBillByCardAmount" statementType="CALLABLE"  resultType="java.lang.Integer">
+        exec Self_help_PayBillByCardAmount #{orderId},#{roomNo},#{billNo},#{amount}
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.zzj.mapper.KlprofileMapper">
+
+
+    <resultMap id="groupMap" type="org.jeecg.modules.zzj.entity.group">
+        <result column="resv_name_id" property="resvnameid" jdbcType="VARCHAR"/>
+        <result column="resort" property="resort" jdbcType="VARCHAR"/>
+        <result column="name_id" property="nameid" jdbcType="VARCHAR"/>
+        <result column="name_type" property="nametype" jdbcType="VARCHAR"/>
+        <result column="alt_name" property="altname" jdbcType="VARCHAR"/>
+        <result column="last_name" property="lastname" jdbcType="VARCHAR"/>
+        <result column="first_name" property="firstname" jdbcType="VARCHAR"/>
+        <result column="language" property="language" jdbcType="VARCHAR"/>
+        <result column="language" property="confirmationNo" jdbcType="VARCHAR"/>
+        <result column="confirmation_no" property="resvstatus" jdbcType="VARCHAR"/>
+        <result column="resv_status" property="restype" jdbcType="VARCHAR"/>
+        <result column="resv_type" property="ratecode" jdbcType="VARCHAR"/>
+        <result column="rate_code" property="ratefinally" jdbcType="VARCHAR"/>
+        <result column="rate_finally" property="ratenotdiscount" jdbcType="VARCHAR"/>
+        <result column="rate_not_discount" property="fixedrate" jdbcType="VARCHAR"/>
+        <result column="fixed_rate" property="packages" jdbcType="VARCHAR"/>
+        <result column="Packages" property="rtc" jdbcType="VARCHAR"/>
+        <result column="rtc" property="block" jdbcType="VARCHAR"/>
+        <result column="block" property="isblock" jdbcType="VARCHAR"/>
+        <result column="romm_class" property="roomclass" jdbcType="VARCHAR"/>
+        <result column="room_type" property="roomtype" jdbcType="VARCHAR"/>
+        <result column="room_no" property="roomno" jdbcType="VARCHAR"/>
+        <result column="room_counter" property="roomcounter" jdbcType="VARCHAR"/>
+        <result column="floor" property="floor" jdbcType="VARCHAR"/>
+        <result column="company" property="company" jdbcType="VARCHAR"/>
+        <result column="group" property="group" jdbcType="VARCHAR"/>
+        <result column="source" property="source" jdbcType="VARCHAR"/>
+        <result column="agent" property="agent" jdbcType="VARCHAR"/>
+        <result column="contact" property="country" jdbcType="VARCHAR"/>
+        <result column="" property="nights" jdbcType="VARCHAR"/>
+        <result column=" " property="adults" jdbcType="VARCHAR"/>
+        <result column=" " property="children" jdbcType="VARCHAR"/>
+        <result column=" " property="begindate" jdbcType="VARCHAR"/>
+        <result column=" " property="enddate" jdbcType="VARCHAR"/>
+        <result column=" " property="paymentMethod" jdbcType="VARCHAR"/>
+        <result column=" " property="nopost" jdbcType="VARCHAR"/>
+        <result column=" " property="partyCode" jdbcType="VARCHAR"/>
+        <result column=" " property="walkinyn" jdbcType="VARCHAR"/>
+        <result column=" " property="donotmove" jdbcType="VARCHAR"/>
+        <result column=" " property="originalendadte" jdbcType="VARCHAR"/>
+        <result column=" " property="actualCheckIndate" jdbcType="VARCHAR"/>
+        <result column=" " property="actualcheckoutdate" jdbcType="VARCHAR"/>
+        <result column=" " property="channelCode" jdbcType="VARCHAR"/>
+        <result column=" " property="callerName" jdbcType="VARCHAR"/>
+        <result column=" " property="idnumber" jdbcType="VARCHAR"/>
+        <result column=" " property="hotelname" jdbcType="VARCHAR"/>
+        <result column=" " property="gender" jdbcType="VARCHAR"/>
+        <result column=" " property="birthday" jdbcType="VARCHAR"/>
+        <result column=" " property="idtype" jdbcType="VARCHAR"/>
+        <result column=" " property="contact" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="queryteam" resultType="org.jeecg.modules.zzj.entity.group" statementType="CALLABLE" resultMap="groupMap">
+    EXEC Self_help_SearchByRoomNo #{roomkey}
+    </select>
+
+
+</mapper>

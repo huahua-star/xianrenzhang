@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.zzj.mapper.DueToSourceMapper">
+
+    <resultMap id="DueToSourceMap" type="org.jeecg.modules.zzj.entity.DueToSource" >
+        <result column="attribute_code" property="attribute_code" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 查询订单来源 -->
+    <select id="searchSourceCode" statementType="CALLABLE" resultMap="DueToSourceMap">
+        exec Self_help_SearchSourceCode
+    </select>
+
+
+</mapper>

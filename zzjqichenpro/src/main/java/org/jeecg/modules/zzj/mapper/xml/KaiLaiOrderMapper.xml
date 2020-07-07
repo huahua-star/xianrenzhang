@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.zzj.mapper.KaiLaiOrderMapper">
+    <!--  调用存储过程 生成预订单   -->
+    <select id="generateOrder" statementType="CALLABLE"  resultType="java.lang.Integer" >
+        EXEC Self_help_CreateResv #{beginTime},#{endTime},#{number},#{roomType},#{phone},#{channelCode},#{name}
+    </select>
+
+    <resultMap id="orderMap" type="org.jeecg.modules.zzj.entity.KaiLaiOrder" >
+        <result column="resv_name_id" property="resvNameId" jdbcType="VARCHAR"/>
+        <result column="name_id" property="nameId" jdbcType="VARCHAR"/>
+        <result column="alt_name" property="altName" jdbcType="VARCHAR"/>
+        <result column="last_name" property="lastName" jdbcType="VARCHAR"/>
+        <result column="first_name" property="firstName" jdbcType="VARCHAR"/>
+        <result column="language" property="language" jdbcType="VARCHAR"/>
+        <result column="resv_status" property="resvStatus" jdbcType="VARCHAR"/>
+        <result column="resv_type" property="resvType" jdbcType="VARCHAR"/>
+        <result column="rate_finally" property="rateFinally" jdbcType="VARCHAR"/>
+        <result column="rate_code" property="rateCode" jdbcType="VARCHAR"/>
+        <result column="Packages" property="packages" jdbcType="VARCHAR"/>
+        <result column="room_type" property="roomType" jdbcType="VARCHAR"/>
+        <result column="room_no" property="roomNo" jdbcType="VARCHAR"/>
+        <result column="floor" property="floor" jdbcType="VARCHAR"/>
+        <result column="nights" property="nights" jdbcType="VARCHAR"/>
+        <result column="begin_date" property="beginDate" jdbcType="VARCHAR"/>
+        <result column="end_date" property="endDate" jdbcType="VARCHAR"/>
+        <result column="original_end_date" property="originalEndDate" jdbcType="VARCHAR"/>
+        <result column="actual_check_in_date" property="actualCheckInDate" jdbcType="VARCHAR"/>
+        <result column="actual_check_out_date" property="actualCheckOutDate" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="identityCard" property="idEntityCard" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column="certificate_type" property="certificateType" jdbcType="VARCHAR"/>
+        <result column="country_description" property="nationality" jdbcType="VARCHAR"/>
+        <result column="message" property="message" jdbcType="VARCHAR"/>
+        <result column="payment_method" property="paymentMethod" jdbcType="VARCHAR"/>
+        <result column="no_post" property="noPost" jdbcType="VARCHAR"/>
+        <result column="accompany_id" property="accompanyId" jdbcType="VARCHAR"/>
+        <result column="room_name" property="roomName" jdbcType="VARCHAR"/>
+        <result column="crs_id" property="crsId" jdbcType="VARCHAR"/>
+        <result column="hotelname" property="hotalName" jdbcType="VARCHAR"/>
+        <result column="birth_date" property="borthday" jdbcType="VARCHAR"/>
+        <result column="id_type" property="idType" jdbcType="VARCHAR"/>
+        <result column="country_desc" property="cnationality" jdbcType="VARCHAR"/>
+        <result column="block_id" property="blockId" jdbcType="VARCHAR"/>
+        <result column="block" property="block" jdbcType="VARCHAR"/>
+        <result column="is_block" property="isBlock" jdbcType="VARCHAR"/>
+        <result column="PAD" property="preAmount" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!-- 根据手机号查询订单    -->
+    <select id="getOrderByPhone" statementType="CALLABLE"  resultMap="orderMap">
+        EXEC Self_help_SearchResvByPhone #{phone}
+    </select>
+    <!-- 根据订单号查询订单    -->
+    <select id="getOrderByOrderId" statementType="CALLABLE"  resultMap="orderMap">
+        EXEC Self_help_SearchResvById #{orderId}
+    </select>
+    <!-- 根据 CRS订单号查询订单    -->
+    <select id="getOrderByCRSId" statementType="CALLABLE"  resultMap="orderMap">
+        EXEC Self_help_SearchResvByCRSId #{orderId}
+    </select>
+
+    <!--  调用存储过程 根据预订单号取消预订单   -->
+    <select id="cancleOrder" statementType="CALLABLE"  resultType="java.lang.Integer">
+        EXEC Self_help_CancleResv #{orderId}
+    </select>
+    <!--  调用存储过程 入住   -->
+    <select id="checkInOrder" statementType="CALLABLE"  resultType="java.lang.Integer">
+        EXEC Self_help_CheckInResv #{orderId}
+    </select>
+    <!--  调用存储过程 退房   -->
+    <select id="checkOutOrder" statementType="CALLABLE"  resultType="java.lang.Integer">
+        EXEC Self_help_CheckOutResv #{orderId}
+    </select>
+    <!--  调用存储过程 修改订单信息  添加 入住人信息
+        lastName 性
+        firstName 名
+        name 姓名
+        -->
+    <select id="updateProfileByRid" statementType="CALLABLE"  resultType="java.lang.Integer">
+        EXEC Self_help_UpdateProfileByRid #{orderId},#{lastName},#{firstName},#{name},
+        #{gender},#{borthDay},#{nation},#{address},#{idNumber},#{certificateType},#{visadate},#{phone},#{nationality}
+    </select>
+    <!--创建同住人-->
+    <select id="createAccompany" statementType="CALLABLE"  resultType="java.lang.Integer">
+        EXEC Self_help_CreateAccompany #{orderId},#{lastName},#{firstName},#{name},
+        #{gender},#{borthDay},#{nation},#{address},#{idNumber},#{certificateType},#{visadate},#{nationality}
+    </select>
+
+    <!--根据身份证查询订单信息-->
+    <select id="searchResvByIdcard" statementType="CALLABLE"  resultMap="orderMap">
+        EXEC Self_help_SearchResvByIdcard #{idNumber}
+    </select>
+
+    <!--根据房间号查询 订单信息-->
+    <select id="searchByRoomNo" statementType="CALLABLE"  resultMap="orderMap">
+        exec Self_help_SearchByRoomNo #{roomNo}
+    </select>
+
+    <!--根据订单号及离店时间 修改订单   续住  -->
+    <select id="goonCheckIn" statementType="CALLABLE" resultType="java.lang.Integer">
+        exec Self_help_GoonCheckIn #{orderId},#{endDate}
+    </select>
+
+    <!-- 判断该订单是否能续住 -->
+    <select id="isCanGoonCheckIn" statementType="CALLABLE" resultType="java.lang.Integer">
+        exec Self_help_IsCanGoonCheckIn #{orderId},#{endDate}
+    </select>
+
+    <!-- 根据姓名和订单来源查询订单  -->
+    <select id="searchResvByName" statementType="CALLABLE" resultMap="orderMap">
+        exec Self_help_SearchResvByName #{name},#{code}
+    </select>
+
+
+    <!-- 根据 nameId 修改 客人信息 profile-->
+    <select id="updateProfileByNameId" statementType="CALLABLE" resultType="java.lang.Integer">
+        exec Self_help_UpdateProfileByNameId #{nameId},#{lastName},#{firstName},
+        #{sname},#{gender},#{birthDay},#{nation},#{address},#{idNumber},
+        #{identityType},#{visadate},#{phone}
+    </select>
+
+    <!-- 根据 nameId 修改 客人信息 profile-->
+    <select id="searchPayment" statementType="CALLABLE" resultType="org.jeecg.modules.zzj.entity.PayMent">
+        exec Self_help_SearchPayment
+    </select>
+
+    <!-- 根据 订单号 修改订单的支付方式 -->
+    <select id="updateResvPayment" statementType="CALLABLE" resultType="java.lang.Integer">
+        exec Self_help_UpdateResvPayment #{orderId},#{payMethod}
+    </select>
+
+    <!--修改订单备注字段-->
+    <select id="updateResvMessage" statementType="CALLABLE" resultType="java.lang.Integer">
+        exec Self_help_UpdateResvMessage #{orderId},#{message}
+    </select>
+
+    <!-- 抓取total字段 -->
+    <select id="searchTotalAmount" statementType="CALLABLE" resultType="java.lang.String">
+        exec Self_help_SearchTotalAmount #{orderId}
+    </select>
+
+    <!-- 根据 姓+名  查询订单-->
+    <select id="searchResvByLFName" statementType="CALLABLE" resultMap="orderMap">
+        exec Self_help_SearchResvByLFName #{lastName},#{firstName}
+    </select>
+
+    <!-- 根据团队id 查询团队订单-->
+    <select id="searchResvByBlockByID" statementType="CALLABLE" resultMap="orderMap">
+        exec Self_help_SearchBlockByID  #{blockId}
+    </select>
+
+    <!--团队 创建预订单 -->
+    <select id="createResvAndBlockID" statementType="CALLABLE" resultType="java.lang.Integer">
+        exec Self_help_CreateResvAndBlockID #{beginTime},#{endTime},#{number},#{roomType},#{phone},#{channelCode},#{blockId}
+    </select>
+
+    <!--分房 -->
+    <select id="getRoomNo" statementType="CALLABLE" resultType="java.lang.String">
+        exec Self_help_GetRoomNo #{orderId}
+    </select>
+</mapper>

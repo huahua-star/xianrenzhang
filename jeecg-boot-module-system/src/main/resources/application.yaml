@@ -1,0 +1,74 @@
+spring:
+  profiles:
+    active: dev
+#    active: master
+swagger:
+  production: false
+  basic:
+    enable: false
+    username: jeecg
+    password: jeecg1314
+
+#sdk 发卡机 串口
+sdk:
+  ComHandle: 1
+#  ComHandle: 2
+#读卡器  串口
+sdk1:
+  ComHandle: 7
+
+admin:
+  adress: http://10.129.6.250:8090/roomimg/getImages?path=
+qrDir: D:/
+
+print:
+  wifiname: zysz
+  wifipass: 88888888
+  hotelname: 凯莱酒店
+  phone: 18888888888
+  #市 如 北京市
+  cityaddress: 北京市
+  #区  如 大望路
+  areaaddress: 朝阳区
+  #路 如 玉泉路
+  roadaddress: 紫玉东路1号
+  #小区 如安慧北里安园
+  communityaddress: 紫玉山庄
+  # 号  如20号
+  numberaddress: 737
+  #图片路径
+  imgurl: E:\\Thelog\\ceshi.jpg
+
+alipay:
+  apikey: "00014005"
+# 写卡服务地址
+cardUrl: http://127.0.0.1:8888
+
+Invoiqr:
+  #由电子发票平台分配的appCode
+  appCode: PTTEST17
+  #调用方纳税人识别号
+  taxpayerCode: 91370200264807TEST4A
+  #证书路径
+  keyStorePath: D:/PTTEST17.keystore
+  #证书别名
+  keyStoreAbner: PTTEST17
+  #证书密码
+  keyStorePassWord: PTTEST17
+  #发票接口
+  facadeUrl: https://www.chinaeinv.com:943/igs/api/orderApi.jspa
+
+
+unionpay:
+  #银商平台接口地址
+  url: https://qr-test2.chinaums.com/netpay-route-server/api/
+  #商户号
+  mid: 898340149000005
+  #终端号
+  tid: 88880001
+  #机构商户号
+  instMid: QRPAYDEFAULT
+  #来源系统
+  msgSrc: WWW.TEST.COM
+  #通讯秘钥
+  key: fcAmtnx7MwismjWNhNKdHC44mNXtnEQeJkRrhKJwyrW2ysRR

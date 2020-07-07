@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.zzj.mapper.KlrecordMapper">
+
+    <resultMap id="klrecordMap" type="org.jeecg.modules.zzj.entity.Klrecord">
+        <result column="alt_name" property="chinesename" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column="country_description" property="nationality" jdbcType="VARCHAR"/>
+        <result column="birth" property="birth" jdbcType="VARCHAR"/>
+        <result column="certificate_type" property="identity" jdbcType="VARCHAR"/>
+        <result column="visadate" property="validity" jdbcType="VARCHAR"/>
+        <result column="identityCard" property="idnumber" jdbcType="VARCHAR"/>
+        <result column="actual_check_in_date" property="reach" jdbcType="VARCHAR"/>
+        <result column="actual_check_out_date" property="out" jdbcType="VARCHAR"/>
+        <result column="room_no" property="roomkey" jdbcType="VARCHAR"/>
+        <!--<result column="rate_finally" property="roomrate" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/> -->
+    </resultMap>
+
+    <resultMap id="klbillMap" type="org.jeecg.modules.zzj.entity.Klbill">
+        <result column="Res_RowID" property="resrowld" jdbcType="VARCHAR"/>
+        <result column="TransactionDate" property="transactionDate" jdbcType="VARCHAR"/>
+        <result column="Price" property="price" jdbcType="VARCHAR"/>
+        <result column="TransactionCode" property="transactioncode" jdbcType="VARCHAR"/>
+        <result column="TrnDescription" property="trndescription" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="CheckupaccountsMap" type="org.jeecg.modules.zzj.entity.Checkupaccounts">
+        <result column="block_id" property="blockid" jdbcType="VARCHAR"/>
+        <result column="name_type" property="nametype" jdbcType="VARCHAR"/>
+        <result column="Res_RowID" property="resrowid" jdbcType="VARCHAR"/>
+        <result column="Price" property="price" jdbcType="VARCHAR"/>
+        <result column="TransactionCode" property="transactionCode" jdbcType="VARCHAR"/>
+        <result column="TrnDescription" property="trnDescription" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="RelatedpdfMap" type="org.jeecg.modules.zzj.entity.Relatedpdf">
+        <result column="alt_name" property="name" jdbcType="VARCHAR"/>
+        <result column="actual_check_in_date" property="reach" jdbcType="VARCHAR"/>
+        <result column="actual_check_out_date" property="out" jdbcType="VARCHAR"/>
+        <result column="room_no" property="roomkey" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="DeparturedetailMap" type="org.jeecg.modules.zzj.entity.Departuredetail">
+        <result column="room_no" property="roomkey" jdbcType="VARCHAR"/>
+        <result column="room_counter" property="roomcounter" jdbcType="VARCHAR"/>
+        <result column="nights" property="nights" jdbcType="VARCHAR"/>
+        <result column="adults" property="adults" jdbcType="VARCHAR"/>
+        <result column="room_type" property="roomtype" jdbcType="VARCHAR"/>
+        <result column="rate_not_discount" property="ratenotdiscount" jdbcType="VARCHAR"/>
+        <result column="pkgPay1" property="pkgpay" jdbcType="VARCHAR"/>
+        <result column="Balance" property="balance" jdbcType="VARCHAR"/>
+        <result column="market_code" property="marketCode" jdbcType="VARCHAR"/>
+        <result column="block_id" property="blockid" jdbcType="VARCHAR"/>
+        <result column="message" property="message" jdbcType="VARCHAR"/>
+        <result column="resv_status" property="resvstatus" jdbcType="VARCHAR"/>
+        <result column="alt_name" property="altname" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+    <!--    更改房间状态-->
+    <update id="updates" statementType="CALLABLE">
+    exec Self_help_CheckOutByRoomNo #{roomkey}
+    </update>
+
+    <!--    根据房间号查询账单明细-->
+    <select id="querylist" statementType="CALLABLE" resultMap="klbillMap">
+     EXEC Self_help_SearchBillByRoomNo #{roomkey}
+    </select>
+
+    <!--    查询用户基本信息-->
+    <select id="queryklrecord" resultType="org.jeecg.modules.zzj.entity.Klrecord" statementType="CALLABLE"
+            resultMap="klrecordMap">
+    EXEC Self_help_SearchByRoomNo #{roomkey}
+    </select>
+
+    <!--    抛帐有关-->
+    <select id="querythrow" resultType="org.jeecg.modules.zzj.entity.Checkupaccounts" resultMap="CheckupaccountsMap">
+    EXEC Self_help_SearchResvTypeAndBill #{resrowid}
+    </select>
+
+    <!--    消费入账-->
+    <select id="insertentry" statementType="CALLABLE" resultType="java.lang.Integer">
+    EXEC Self_help_InsertBill #{resrowid}, #{roomkey} ,#{TransactionCode} ,#{amount} ,#{roomrate}, #{subcode} ,#{username}
+    </select>
+
+    <!--    结账抛帐-->
+    <update id="insercurtains">
+    EXEC Self_help_PayBill #{resrowid}, #{roomkey}, #{Trncode}, #{amount}
+    </update>
+
+    <!--    账单pdf相关-->
+    <select id="querypdf1" resultType="org.jeecg.modules.zzj.entity.Relatedpdf" statementType="CALLABLE" resultMap="RelatedpdfMap">
+     EXEC Self_help_SearchByRoomNo #{roomkey}
+    </select>
+
+     <!--  根据房间号查询陪同客人 房号 房数 间晚 成人数量 房型 升级 初始房价 包价 余额 市场 协议单位 团队 贵宾 订单备注 预订状态-->
+    <select id="querylists" resultType="org.jeecg.modules.zzj.entity.Departuredetail" statementType="CALLABLE" resultMap="DeparturedetailMap">
+        EXEC Self_help_SearchInfoByRoomNo #{roomkey}
+    </select>
+
+   <!--    查询入账账项代码-->
+    <select id="Queryentrycode" resultType="java.lang.Object" statementType="CALLABLE">
+     exec Self_help_Search_Ibill_TrnCode
+    </select>
+
+   <!--    查询结账账项代码-->
+    <select id="Querytheentrycode" resultType="java.lang.Object" statementType="CALLABLE">
+     exec Self_help_Search_Paybill_TrnCode
+    </select>
+
+
+
+</mapper>

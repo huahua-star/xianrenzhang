@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.zzj.mapper.PayMentMapper">
+
+    <resultMap id="payMentMap" type="org.jeecg.modules.zzj.entity.PayMent" >
+        <result column="PaymentType_Code" property="PaymentTypeCode" jdbcType="VARCHAR"/>
+        <result column="Description" property="Description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 查询支付方式 -->
+    <select id="searchPayment" statementType="CALLABLE" resultMap="payMentMap">
+        exec Self_help_SearchPayment
+    </select>
+
+
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.zzj.mapper.ExpensedetailMapper">
+
+    <!--   <resultMap id="Expensedetailmap" type="org.jeecg.modules.zzj.entity.Expensedetail">
+          <result column="Res_RowID" property="resRowid"/>
+          <result column="TransactionDate" property="transactiondate"/>
+          <result column="Price" property="price"/>
+          <result column="TransactionCode" property="transactioncode"/>
+          <result column="TrnDescription" property="trndescription"/>
+      </resultMap>-->
+
+    <insert id="insertionlist" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into qc_expensedetail(
+        Res_RowID,
+        TransactionDate,
+        Price,
+        TransactionCode,
+        TrnDescription
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.resrowld,jdbcType=VARCHAR},
+            #{item.transactionDate,jdbcType=VARCHAR},
+            #{item.price,jdbcType=VARCHAR},
+            #{item.transactioncode,jdbcType=VARCHAR},
+            #{item.trndescription,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="inserlists" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into qc_userinfo(
+        alt_name,
+        gender,
+        country_desrciption,
+        birth,
+        certificate_type,
+        visadate,
+        identityCard,
+        actual_check_in_date,
+        actual_check_out_date,
+        room_no
+        )values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.chinesename,jdbcType=VARCHAR},
+            #{item.gender,jdbcType=VARCHAR},
+            #{item.nationality,jdbcType=VARCHAR},
+            #{item.birth,jdbcType=VARCHAR},
+            #{item.identity,jdbcType=VARCHAR},
+            #{item.validity,jdbcType=VARCHAR},
+            #{item.idnumber,jdbcType=VARCHAR},
+            #{item.reach,jdbcType=VARCHAR},
+            #{item.out,jdbcType=VARCHAR},
+            #{item.roomkey,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="savecklist" parameterType="org.jeecg.modules.zzj.entity.Departuredetails">
+        insert into qc_departuredetail(chinesename,
+        reach,
+        tui,
+        roomkey,roomcounter,nights,adults,
+        roomtype,ratenotdiscount,pkgpay,
+        balance,
+        marketcode,blockid,message,resvstatus,altname)
+        values
+        (
+        #{chinesename,jdbcType=VARCHAR},#{reach,jdbcType=VARCHAR},#{tui,jdbcType=VARCHAR},#{roomkey,jdbcType=VARCHAR},
+        #{roomcounter,jdbcType=VARCHAR},#{nights,jdbcType=VARCHAR},#{adults,jdbcType=VARCHAR},#{roomtype,jdbcType=VARCHAR},
+        #{ratenotdiscount,jdbcType=VARCHAR},#{pkgpay,jdbcType=VARCHAR},#{balance,jdbcType=VARCHAR},#{marketcode,jdbcType=VARCHAR},
+        #{blockid,jdbcType=VARCHAR},#{message,jdbcType=VARCHAR},#{resvstatus,jdbcType=VARCHAR},#{altname,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+</mapper>
